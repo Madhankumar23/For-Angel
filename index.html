@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Angel 😇</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --glass-bg: rgba(255,255,255,0.25);
+    --glass-border: rgba(255,255,255,0.4);
+    --text-deep: #4a148c;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fce4ec 0%, #e1bee7 50%, #f48fb1 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--text-deep);
+    margin-bottom: 10px;
+  }
+
+  .message-text {
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    position: relative;
+    min-height: 60px;
+  }
+
+  button {
+    padding: 15px 35px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-yes {
+    background: #43a047;
+    color: white;
+    box-shadow: 0 4px 15px rgba(67, 160, 71, 0.4);
+  }
+
+  .btn-no {
+    background: #e53935;
+    color: white;
+    box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4);
+    position: absolute;
+    right: 20%;
+  }
+
+  /* Success & Sad States */
+  .state { display: none; animation: fadeIn 0.5s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+  .show { display: block; }
+  
+  .emoji { font-size: 4rem; display: block; margin-bottom: 20px; }
+  .state-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text-deep); margin-bottom: 15px; }
+
+</style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+  
+  <div id="step-question" class="state show">
+    <h1>Hey Angel... 😇</h1>
+    <p class="message-text">
+        Ricky knows he’s been a headache lately. I’m truly sorry for missing the milestones I promised. 
+        <br><br>
+        I’m working hard to be the man you and your father can trust. Can we start with a smile today?
+    </p>
+    <div class="btn-row">
+      <button class="btn-yes" id="btnYes">Yes, I'm here 💚</button>
+      <button class="btn-no" id="btnNo">No 🥺</button>
+    </div>
+  </div>
+
+  <div id="step-yes" class="state">
+    <span class="emoji">❤️</span>
+    <p class="state-title">Thank you, Angel.</p>
+    <p>Your belief in me is the only "settlement" I need to keep going. I won't let you down this time.</p>
+  </div>
+
+  <div id="step-no" class="state">
+    <span class="emoji">🥀</span>
+    <p class="state-title">I understand, Angel.</p>
+    <p>I know my broken promises hurt. I'll stay back and keep working until my actions speak louder than my words. I'm always here when you're ready.</p>
+  </div>
+
+</div>
+
+<script>
+  const btnNo = document.getElementById('btnNo');
+  const btnYes = document.getElementById('btnYes');
+  const stepQuestion = document.getElementById('step-question');
+  const stepYes = document.getElementById('step-yes');
+  const stepNo = document.getElementById('step-no');
+
+  let moveCount = 0;
+  const maxMoves = 3; // How many times it runs away before staying still
+
+  function flee() {
+    if (moveCount < maxMoves) {
+      const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 50);
+      const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 50);
+      btnNo.style.position = 'fixed';
+      btnNo.style.left = x + 'px';
+      btnNo.style.top = y + 'px';
+      moveCount++;
+    }
+  }
+
+  // Interaction for No button
+  btnNo.addEventListener('mouseover', flee);
+  btnNo.addEventListener('touchstart', (e) => {
+    if (moveCount < maxMoves) {
+        e.preventDefault();
+        flee();
+    }
+  });
+
+  btnNo.addEventListener('click', () => {
+    if (moveCount >= maxMoves) {
+        stepQuestion.classList.remove('show');
+        stepNo.classList.add('show');
+        btnNo.style.display = 'none';
+    }
+  });
+
+  // Interaction for Yes button
+  btnYes.addEventListener('click', () => {
+    stepQuestion.classList.remove('show');
+    stepYes.classList.add('show');
+    btnNo.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
