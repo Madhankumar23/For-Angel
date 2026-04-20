@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -66,7 +66,7 @@
     display: flex;
     gap: 15px;
     justify-content: center;
-    flex-wrap: wrap; /* Helps buttons look good on smaller phone screens */
+    flex-wrap: wrap; 
   }
 
   button {
@@ -142,16 +142,36 @@
   const stepYes = document.getElementById('step-yes');
   const stepNo = document.getElementById('step-no');
 
-  // Simple click event for the YES button
+  // --- The Notification Function ---
+  function notifyRicky(herChoice) {
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: '59697fa2-ceb8-4273-be63-9e23d9fb0e47', 
+        subject: 'Angel just replied to your page!',
+        message: `Angel clicked: ${herChoice}`
+      })
+    })
+    .then(response => console.log('Notification sent silently'))
+    .catch(error => console.log('Error sending notification'));
+  }
+
+  // Click event for the YES button
   btnYes.addEventListener('click', () => {
     stepQuestion.classList.remove('show');
     stepYes.classList.add('show');
+    notifyRicky('YES 💚'); // This triggers the email
   });
 
-  // Simple click event for the NO button
+  // Click event for the NO button
   btnNo.addEventListener('click', () => {
     stepQuestion.classList.remove('show');
     stepNo.classList.add('show');
+    notifyRicky('NO 🥺'); // This triggers the email
   });
 </script>
 
