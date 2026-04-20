@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -52,7 +52,7 @@
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
     color: var(--text-deep);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 
   .message-text {
@@ -66,8 +66,7 @@
     display: flex;
     gap: 15px;
     justify-content: center;
-    position: relative;
-    min-height: 60px;
+    flex-wrap: wrap; /* Helps buttons look good on smaller phone screens */
   }
 
   button {
@@ -77,27 +76,28 @@
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
   }
 
   .btn-yes {
     background: #43a047;
     color: white;
-    box-shadow: 0 4px 15px rgba(67, 160, 71, 0.4);
+    box-shadow: 0 4px 15px rgba(67, 160, 71, 0.3);
   }
 
   .btn-no {
     background: #e53935;
     color: white;
-    box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4);
-    position: absolute;
-    right: 20%;
+    box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3);
   }
 
-  /* Success & Sad States */
-  .state { display: none; animation: fadeIn 0.5s ease forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
+  /* States logic to hide and show different messages */
+  .state { display: none; animation: fadeIn 0.6s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .show { display: block; }
   
   .emoji { font-size: 4rem; display: block; margin-bottom: 20px; }
@@ -110,28 +110,27 @@
 <div class="card" id="mainCard">
   
   <div id="step-question" class="state show">
-    <h1>Hey Angel... 😇</h1>
+    <h1>Hey Angel !.....</h1>
     <p class="message-text">
-        Ricky knows he’s been a headache lately. I’m truly sorry for missing the milestones I promised. 
-        <br><br>
-        I’m working hard to be the man you and your father can trust. Can we start with a smile today?
+        Ricky knows he’s been a headache lately. I’m truly sorry for my activities.<br><br>
+        I’m working hard to be the man you trust. Can you be with me on this Journey?
     </p>
     <div class="btn-row">
-      <button class="btn-yes" id="btnYes">Yes, I'm here 💚</button>
-      <button class="btn-no" id="btnNo">No 🥺</button>
+      <button class="btn-yes" id="btnYes">Yes, I am here 💚</button>
+      <button class="btn-no" id="btnNo">No, I need time 🥺</button>
     </div>
   </div>
 
   <div id="step-yes" class="state">
     <span class="emoji">❤️</span>
-    <p class="state-title">Thank you, Angel.</p>
-    <p>Your belief in me is the only "settlement" I need to keep going. I won't let you down this time.</p>
+    <p class="state-title">Thanks for being Patient with Me.</p>
+    <p class="message-text">Your belief means everything. Let's build this future together.</p>
   </div>
 
   <div id="step-no" class="state">
     <span class="emoji">🥀</span>
     <p class="state-title">I understand, Angel.</p>
-    <p>I know my broken promises hurt. I'll stay back and keep working until my actions speak louder than my words. I'm always here when you're ready.</p>
+    <p class="message-text">I know trust is earned through actions, not just words. I will keep working on myself and our future. Take all the time you need—I'll be right here when you are ready.</p>
   </div>
 
 </div>
@@ -143,42 +142,16 @@
   const stepYes = document.getElementById('step-yes');
   const stepNo = document.getElementById('step-no');
 
-  let moveCount = 0;
-  const maxMoves = 3; // How many times it runs away before staying still
-
-  function flee() {
-    if (moveCount < maxMoves) {
-      const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 50);
-      const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 50);
-      btnNo.style.position = 'fixed';
-      btnNo.style.left = x + 'px';
-      btnNo.style.top = y + 'px';
-      moveCount++;
-    }
-  }
-
-  // Interaction for No button
-  btnNo.addEventListener('mouseover', flee);
-  btnNo.addEventListener('touchstart', (e) => {
-    if (moveCount < maxMoves) {
-        e.preventDefault();
-        flee();
-    }
-  });
-
-  btnNo.addEventListener('click', () => {
-    if (moveCount >= maxMoves) {
-        stepQuestion.classList.remove('show');
-        stepNo.classList.add('show');
-        btnNo.style.display = 'none';
-    }
-  });
-
-  // Interaction for Yes button
+  // Simple click event for the YES button
   btnYes.addEventListener('click', () => {
     stepQuestion.classList.remove('show');
     stepYes.classList.add('show');
-    btnNo.style.display = 'none';
+  });
+
+  // Simple click event for the NO button
+  btnNo.addEventListener('click', () => {
+    stepQuestion.classList.remove('show');
+    stepNo.classList.add('show');
   });
 </script>
 
