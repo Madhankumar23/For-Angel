@@ -142,7 +142,7 @@
   const stepYes = document.getElementById('step-yes');
   const stepNo = document.getElementById('step-no');
 
-  // --- The Notification Function ---
+  // --- UPDATED: The Notification Function ---
   function notifyRicky(herChoice) {
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -152,28 +152,32 @@
       },
       body: JSON.stringify({
         access_key: '59697fa2-ceb8-4273-be63-9e23d9fb0e47', 
+        name: 'Angel Bot',                  // Added to satisfy Web3Forms
+        email: 'notify@ricky.com',          // Added to satisfy Web3Forms
         subject: 'Angel just replied to your page!',
         message: `Angel clicked: ${herChoice}`
       })
     })
-    .then(response => console.log('Notification sent silently'))
-    .catch(error => console.log('Error sending notification'));
+    .then(async (response) => {
+        let json = await response.json();
+        console.log('Server Response:', json); // This will tell us if it worked
+    })
+    .catch(error => console.log('Error sending notification', error));
   }
 
   // Click event for the YES button
   btnYes.addEventListener('click', () => {
     stepQuestion.classList.remove('show');
     stepYes.classList.add('show');
-    notifyRicky('YES 💚'); // This triggers the email
+    notifyRicky('YES 💚');
   });
 
   // Click event for the NO button
   btnNo.addEventListener('click', () => {
     stepQuestion.classList.remove('show');
     stepNo.classList.add('show');
-    notifyRicky('NO 🥺'); // This triggers the email
+    notifyRicky('NO 🥺');
   });
 </script>
-
 </body>
 </html>
